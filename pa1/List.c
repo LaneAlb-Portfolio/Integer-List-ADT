@@ -16,7 +16,7 @@ typedef struct NodeObj{
     struct NodeObj* prev;
 } NodeObj;
 
-/* Node Type */
+/* Node Alias for NodeObj */
 typedef NodeObj* Node;
 
 /* ListObj Type */
@@ -182,17 +182,17 @@ void movePrev(List L){
 }
 
 void moveNext(List L){
-    if (L->cursor != NULL){ /* Only do something if cursor != NULL */
-        /* if at back already then cursor is set to undefined*/
-        if (L->cursor == L->back){
-            L->cursor = NULL;
-            L->index = -1;
-        }
-        else{ /* move cursor 1 step to back */
-            L->cursor = L->cursor->next;
-            L->index++;
-        }
+    if (L->cursor == NULL){ return; }
+    /* Only do something if cursor != NULL */
+    /* if at back already then cursor is set to undefined*/
+    if (L->cursor == L->back){
+        L->cursor = NULL;
+        L->index = -1;
     }
+    else{ /* move cursor 1 step to back */
+        L->cursor = L->cursor->next;
+        L->index++;
+        }
 }
 
 void prepend(List L, int x){
@@ -331,11 +331,23 @@ void delete(List L){
 
 /* Other Functions */
 void printList(FILE* out, List L){
-
+    /*Grabbed from Q.c Test it also make work for file*/
+    Node temp = NULL;
+    if (L == NULL){
+        printf("List Error: calling printList() on NULL List Reference.\n");
+        exit(EXIT_FAILURE);
+    }
+    for (temp = L->front; temp != NULL; temp = temp->next){
+        printf("Print to file here");
+    }
 }
-List copyList(List L){
-   // List copy = newList();
-    //while (length(copy) != length(L)){
 
-    //}
+List copyList(List L){
+    List copy = newList();
+    Node temp = L->front;
+    while (length(copy) != length(L)){
+        append(copy, temp->data);
+        temp = temp->next;
+    }
+    return copy;
 }
