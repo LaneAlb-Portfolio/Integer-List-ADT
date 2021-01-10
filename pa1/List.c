@@ -124,10 +124,10 @@ int equals(List A, List B){
     Node F = A->front;
     Node N = B->front;
     
-    if (A->length == B->length){ equal = 1; } /* if lengths are not same return false "0"*/
-    /* look at each data point until they are not equal or lists are equal */
+    equal = (A->length == B->length); /* if lengths are not same return false "0"*/
+    /* look at each data point until they are not equal or lists end */
     while(F!=NULL && N!=NULL && equal > 0){
-        if (F->data != N->data){ equal = 1; } /* if data is equal flag*/
+        if (F->data != N->data){ equal = 0; } /* if data is NOT equal flag*/
         F = F->next;
         N = N->next;
     }
@@ -278,19 +278,20 @@ void deleteFront(List L){
         L->cursor = NULL;
         L->index = -1;
     }
-    if(length(L) == 1){ /* Special Case for deleteFront on singular List*/
+    if (length(L) == 1){
         freeNode(&L->front);
         L->index -= 1;
-        L->length -= 1;
+        L->length -=1;
         return;
     }
-    /* Set newFront Node to 2nd element, free up the current front and set L->front */
-    Node newFront = NULL;
-    newFront = L->front->next;
-    L->front = newFront;
-    freeNode(&L->front->prev);
-    L->index -= 1;
-    L->length -= 1;
+    /* Set oldFront Node to free up the current front and set L->front */
+    Node oldFront = NULL;
+    oldFront = L->front;
+    L->front = L->front->next;
+    freeNode(&oldFront);
+    L->front->prev = NULL;
+    L->index -=1;
+    L->length-=1;
 }
 
 void deleteBack(List L){
@@ -302,10 +303,18 @@ void deleteBack(List L){
         L->cursor = NULL;
         L->index = -1;
     }
-    Node newBack = NULL;
-    newBack = L->back->prev;
-    L->back = newBack;
-    freeNode(&L->back->next);
+    if(length(L) == 1){ /* Special Case for deleteBack on singular List*/
+        freeNode(&L->back);
+        L->index = -1;
+        L->length -= 1;
+        return;
+    }
+    /* Set oldBack Node to free up the current back and set L->back */
+    Node oldBack = NULL;
+    oldBack = L->back;
+    L->back = L->back->prev;
+    freeNode(&oldBack);
+    L->back->next = NULL;
     L->length -= 1;
 }
 
@@ -331,15 +340,17 @@ void delete(List L){
 
 /* Other Functions */
 void printList(FILE* out, List L){
-    /*Grabbed from Q.c Test it also make work for file*/
-    Node temp = NULL;
+    /* Check if List is NULL */
     if (L == NULL){
         printf("List Error: calling printList() on NULL List Reference.\n");
         exit(EXIT_FAILURE);
     }
+    /* Print data to out file */
+    Node temp = NULL;
     for (temp = L->front; temp != NULL; temp = temp->next){
-        printf("Print to file here");
+        fprintf(out, "%d ", temp->data);
     }
+  //  fclose(out); no worko with listcliento
 }
 
 List copyList(List L){

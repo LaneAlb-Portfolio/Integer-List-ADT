@@ -67,5 +67,4 @@ List copyList(List L);              /* Returns a new list which represents the s
 
 /* Optional */
 List concatList(List A, List B);
-
 #endif
