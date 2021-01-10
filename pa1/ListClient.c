@@ -53,7 +53,6 @@ int main(int argc, char* argv[]){
    freeList(&A);
    freeList(&B);
    freeList(&C);
-   printf("Freed Memory, Im now Free\n");
    return(0);
 }
 

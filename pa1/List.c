@@ -362,3 +362,18 @@ List copyList(List L){
     }
     return copy;
 }
+
+List concatList(List A, List B){
+    List combined = newList();
+    Node temp = A->front;
+    while (length(combined) != length(A)){
+        append(combined, temp->data);
+        temp = temp->next;
+    }
+    temp = B->front;
+    while (temp != NULL){
+        append(combined, temp->data);
+        temp = temp->next;
+    }
+    return combined;
+}
