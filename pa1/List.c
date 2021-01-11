@@ -350,7 +350,6 @@ void printList(FILE* out, List L){
     for (temp = L->front; temp != NULL; temp = temp->next){
         fprintf(out, "%d ", temp->data);
     }
-  //  fclose(out); no worko with listcliento
 }
 
 List copyList(List L){
