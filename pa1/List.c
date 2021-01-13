@@ -5,9 +5,9 @@
 * Implementation file for List ADT
 */
 
+#include "List.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "List.h"
 
 /* structs defaulted all private */
 typedef struct NodeObj{
@@ -274,12 +274,13 @@ void deleteFront(List L){
         printf("List Error: calling deleteFront() on NULL List Reference\n");
         exit(EXIT_FAILURE);
     }
-    if(L->cursor = L->front){ /* If cursor points at Front its now undefined*/
+    if(L->cursor == L->front){ /* If cursor points at Front its now undefined*/
         L->cursor = NULL;
-        L->index = -1;
+        L->index = 0; //index will be decremented below
     }
     if (length(L) == 1){
         freeNode(&L->front);
+        L->back = NULL;
         L->index -= 1;
         L->length -=1;
         return;
@@ -299,12 +300,13 @@ void deleteBack(List L){
         printf("List Error: calling deleteBack() on NULL List Reference\n");
         exit(EXIT_FAILURE);
     }
-    if(L->cursor = L->back){ /* If cursor points at back its now undefined*/
+    if(L->cursor == L->back){ /* If cursor points at back its now undefined*/
         L->cursor = NULL;
         L->index = -1;
     }
     if(length(L) == 1){ /* Special Case for deleteBack on singular List*/
         freeNode(&L->back);
+        L->front = NULL;
         L->index = -1;
         L->length -= 1;
         return;
